@@ -1,19 +1,19 @@
-FROM alpine:latest
+FROM phusion / baseimage
 RUN apk --update add bash
 
 ENV LANG en_US.UTF-8
 ENV BTSUNAME admin
 ENV BTSPASS password
 
-ADD https://download-cdn.getsyncapp.com/stable/linux-x64/BitTorrent-Sync_x64.tar.gz /btsync.tar.gz
-RUN tar zxvf /btsync.tar.gz && \
-    rm /btsync.tar.gz
+RUN locale-gen $LANG
 
-RUN mkdir /data && chmod 777 /data
-VOLUME ["/data"]
+ADD https://download-cdn.getsyncapp.com/stable/linux-x64/BitTorrent-Sync_x64.tar.gz /btsync.tar.gz
+RUN tar xf /btsync.tar.gz && \
+    rm /btsync.tar.gz
 
 ADD start.sh /start.sh
 
+VOLUME ["/data"]
 EXPOSE 3369/udp
 EXPOSE 8888
 
