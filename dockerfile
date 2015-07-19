@@ -13,7 +13,6 @@ RUN mkdir /data && chmod 777 /data
 VOLUME ["/data"]
 
 ADD start.sh /start.sh
-ADD btsync.conf /data/btsync.conf
 
 EXPOSE 3369/udp
 EXPOSE 8888
