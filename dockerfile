@@ -2,6 +2,8 @@ FROM alpine:latest
 RUN apk --update add bash
 
 ENV LANG en_US.UTF-8
+ENV BTSUNAME admin
+ENV BTSPASS password
 
 ADD https://download-cdn.getsyncapp.com/stable/linux-x64/BitTorrent-Sync_x64.tar.gz /btsync.tar.gz
 RUN tar xf /btsync.tar.gz && \
