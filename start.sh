@@ -2,6 +2,7 @@
 
 set -e
 
+mkdir "${SHAREFOLDER}"
 [ ! -L /.sync ] && ln -sf /data /.sync
 
 [ ! -f /data/btsync.conf ] && cat > /data/btsync.conf <<EOF
