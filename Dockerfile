@@ -3,7 +3,6 @@ FROM phusion/baseimage:0.9.15
 ENV LANG en_US.UTF-8
 ENV BTSUNAME admin
 ENV BTSPASS password
-ENV SHAREFOLDER /Sync
 
 RUN locale-gen $LANG
 
@@ -13,8 +12,10 @@ RUN tar xf /btsync.tar.gz && \
 
 ADD start.sh /start.sh
 RUN chmod 777 /start.sh
+RUN mkdir /Sync
 
 VOLUME ["/data"]
+VOLUME ["/Sync"]
 EXPOSE 3369/udp
 EXPOSE 8888
 
