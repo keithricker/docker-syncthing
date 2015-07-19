@@ -2,7 +2,7 @@
 
 set -e
 
-mkdir "${SHAREFOLDER}"
+mkdir "${SHAREFOLDER}" && chmod 777 "${SHAREFOLDER}"
 [ ! -L /.sync ] && ln -sf /data /.sync
 
 [ ! -f /data/btsync.conf ] && cat > /data/btsync.conf <<EOF
