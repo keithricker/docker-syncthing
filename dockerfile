@@ -1,4 +1,4 @@
-FROM phusion / baseimage
+FROM phusion/baseimage:0.9.15
 RUN apk --update add bash
 
 ENV LANG en_US.UTF-8
