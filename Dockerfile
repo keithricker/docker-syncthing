@@ -12,7 +12,7 @@ RUN tar xf /btsync.tar.gz && \
 
 ADD start.sh /start.sh
 RUN chmod 777 /start.sh
-RUN mkdir /Sync
+RUN mkdir /Sync && chmod 777 /Sync
 
 VOLUME ["/data"]
 VOLUME ["/Sync"]
