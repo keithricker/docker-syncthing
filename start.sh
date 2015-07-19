@@ -19,3 +19,4 @@ mkdir "${SHAREFOLDER}"
 EOF
 
 /btsync --nodaemon --config /data/btsync.conf
+bin/bash
