@@ -2,7 +2,6 @@
 
 set -e
 
-mkdir "${SHAREFOLDER}" && chmod 777 "${SHAREFOLDER}"
 [ ! -L /.sync ] && ln -sf /data /.sync
 
 [ ! -f /data/btsync.conf ] && cat > /data/btsync.conf <<EOF
@@ -19,4 +18,3 @@ mkdir "${SHAREFOLDER}" && chmod 777 "${SHAREFOLDER}"
 EOF
 
 /btsync --nodaemon --config /data/btsync.conf
-bin/bash
