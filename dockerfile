@@ -6,7 +6,7 @@ ENV BTSUNAME admin
 ENV BTSPASS password
 
 ADD https://download-cdn.getsyncapp.com/stable/linux-x64/BitTorrent-Sync_x64.tar.gz /btsync.tar.gz
-RUN tar xf /btsync.tar.gz && \
+RUN tar zxvf /btsync.tar.gz && \
     rm /btsync.tar.gz
 
 RUN mkdir /data && chmod 777 /data
