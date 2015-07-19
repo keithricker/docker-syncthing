@@ -11,6 +11,7 @@ RUN tar xf /btsync.tar.gz && \
     rm /btsync.tar.gz
 
 ADD start.sh /start.sh
+RUN chmod 777 /start.sh
 
 VOLUME ["/data"]
 EXPOSE 3369/udp
