@@ -14,9 +14,6 @@ set -e
     "login": "${BTSUNAME}",
     "password": "${BTSPASS}"
   }
-  "shared_folders": {
-    "dir": "/Sync"
-  }
 }
 EOF
 
