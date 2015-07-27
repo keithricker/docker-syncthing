@@ -1,4 +1,4 @@
-FROM kalabox/syncthing:latest
+FROM kalabox/syncthing:stable
 
 ENV DEBIAN_FRONTEND noninteractive
 
