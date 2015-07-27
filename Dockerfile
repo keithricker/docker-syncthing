@@ -1,24 +1,20 @@
-FROM kricker/server-base:latest
+FROM kalabox/syncthing:latest
 
-RUN apt-get update && \
-    apt-get install -y supervisor && \
-    cd /tmp && \
-    curl -L "https://github.com/syncthing/syncthing/releases/download/v0.11.6/syncthing-linux-amd64-v0.11.6.tar.gz" -O && \
-    tar -zvxf "syncthing-linux-amd64-v0.11.6.tar.gz" && \
-    mv syncthing-linux-amd64-v0.11.6/syncthing /usr/local/bin/syncthing && \
-    mkdir -p /etc/syncthing/ && \
-    mkdir -p /sync/ && \
-    mkdir -p /sync/code/ && \
-    apt-get clean -y && \
-    apt-get autoclean -y && \
-    apt-get autoremove -y && \
-    rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
-    rm -rf /tmp/*
+ENV DEBIAN_FRONTEND noninteractive
 
-ADD ./config.xml /etc/syncthing/config.xml
-ADD ./syncthing-supervisor.conf /etc/supervisor/conf.d/syncthing-supervisor.conf
-ADD ./start.sh /start.sh
+# The password is password
+RUN \
+  echo "root:password" | chpasswd && \
+  mkdir /var/run/sshd
 
-EXPOSE 60008 22000 21025/udp 21026/udp
+# Install OpenSSH server
+RUN \
+  apt-get update && \
+  apt-get install -y openssh-server && \
+  apt-get clean && rm -rf /var/lib/apt/lists/*
 
-CMD ["/bin/bash", "/start.sh"]
+EXPOSE 22
+
+ENTRYPOINT ["/usr/sbin/sshd"]
+
+CMD ["-D", "/bin/bash", "unlink /var/run/supervisor.sock", "/start.sh"]
