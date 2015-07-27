@@ -1,38 +1,17 @@
-FROM kricker/mini-server-base:latest
+FROM kricker/mysql-base:latest
 
 ENV SSH_USERNAME root
 ENV SSH_PASSWORD password
 
-ENV VERSION master
-
-# Add user to run syncthing as, must exist on host and have access to files
-RUN cd ~/ && adduser -D -u 1000 syncthing users
-
-# Add dependencies 
-RUN apk add --update ca-certificates git godep go mercurial bash && \
-    rm -rf /var/cache/apk/* && \
-
-# Download from Github and build
-    mkdir -p /go/src/github.com/syncthing && \
-    cd /go/src/github.com/syncthing && \
-    git clone https://github.com/syncthing/syncthing.git && \
-    cd syncthing && \
-    git checkout $VERSION && \
-    go run build.go && \
-    mv bin/syncthing /home/syncthing/syncthing && \
-    chown syncthing:syncthing /home/syncthing/syncthing && \
-
-# Clean up
-    rm -rf /go && cd /;
-
-# install openssh
+# install syncthing
+apk add syncthing
 USER root
 RUN if [ ! -d /sync ]; then mkdir /sync && chmod 777 -R /sync; fi
+
+#install openssh
 RUN apk add -U openssh && rc-update add sshd;
 RUN echo "${SSH_USERNAME}:${SSH_PASSWORD}" | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
 EXPOSE 8384 22000 22 21025/udp
-VOLUME /config
-CMD ["-no-browser", "-no-restart", "-gui-address=0.0.0.0:8384", "-home=/config"]  
-ENTRYPOINT /usr/sbin/apachectl -D FOREGROUND & /home/syncthing/syncthing  
+ENTRYPOINT syncthing
