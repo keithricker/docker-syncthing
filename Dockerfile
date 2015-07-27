@@ -10,4 +10,3 @@ USER root
 RUN apk add -U openssh && rc-update add sshd;
 RUN echo "${SSH_USERNAME}:${SSH_PASSWORD}" | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-RUN mkdir -p /root/.ssh/ && touch /root/.ssh/authorized_keys;
