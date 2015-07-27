@@ -1,2 +1,3 @@
-# docker-btsync
-Installs btsync on a minimal linux distro
+# docker-syncthing
+
+Installs syncthing on a minimal linux distro, with SSH client/server.
