@@ -3,7 +3,7 @@ FROM kricker/mini-server-base:latest
 ENV SSH_USERNAME root
 ENV SSH_PASSWORD password
 
-ENV VERSION v0.11.16
+ENV VERSION master
 
 # Add user to run syncthing as, must exist on host and have access to files
 RUN cd ~/ && adduser -D -u 1000 syncthing users
