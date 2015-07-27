@@ -1,7 +1,7 @@
 FROM gbrks/syncthing:latest
 
-ENV SSH_USERNAME, root
-ENV SSH_PASSWORD, password
+ENV SSH_USERNAME root
+ENV SSH_PASSWORD password
 
 CMD ["-no-browser", "-no-restart", "-gui-address=0.0.0.0:8384", "-home=/config"]  
 ENTRYPOINT ["/home/syncthing/syncthing"]  
