@@ -1,20 +1,13 @@
-FROM kalabox/syncthing:stable
+FROM gbrks/syncthing:latest
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV SSH_USERNAME, root
+ENV SSH_PASSWORD, password
 
-# The password is password
-RUN \
-  echo "root:password" | chpasswd && \
-  mkdir /var/run/sshd
+apk add -U openssh;
+rc-update add sshd;
+echo "${sshuname}:${sshpass}" | chpasswd;
+sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config;
+mkdir -p /root/.ssh/ && touch /root/.ssh/authorized_keys;
 
-# Install OpenSSH server
-RUN \
-  apt-get update && \
-  apt-get install -y openssh-server && \
-  apt-get clean && rm -rf /var/lib/apt/lists/*
-
-EXPOSE 22
-
-ENTRYPOINT ["/usr/sbin/sshd"]
-
-CMD ["-D", "/bin/bash", "unlink /var/run/supervisor.sock", "/start.sh"]
+CMD ["-no-browser", "-no-restart", "-gui-address=0.0.0.0:8384", "-home=/config"]  
+ENTRYPOINT ["/home/syncthing/syncthing"]  
