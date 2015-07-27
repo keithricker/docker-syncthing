@@ -1,21 +1,24 @@
-FROM phusion/baseimage:0.9.15
+FROM kricker/server-base:latest
 
-ENV LANG en_US.UTF-8
-ENV BTSUNAME admin
-ENV BTSPASS password
+RUN apt-get update && \
+    apt-get install -y supervisor && \
+    cd /tmp && \
+    curl -L "https://github.com/syncthing/syncthing/releases/download/v0.11.6/syncthing-linux-amd64-v0.11.6.tar.gz" -O && \
+    tar -zvxf "syncthing-linux-amd64-v0.11.6.tar.gz" && \
+    mv syncthing-linux-amd64-v0.11.6/syncthing /usr/local/bin/syncthing && \
+    mkdir -p /etc/syncthing/ && \
+    mkdir -p /sync/ && \
+    mkdir -p /sync/code/ && \
+    apt-get clean -y && \
+    apt-get autoclean -y && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
+    rm -rf /tmp/*
 
-RUN locale-gen $LANG
+ADD ./config.xml /etc/syncthing/config.xml
+ADD ./syncthing-supervisor.conf /etc/supervisor/conf.d/syncthing-supervisor.conf
+ADD ./start.sh /start.sh
 
-ADD http://download-cdn.getsyncapp.com/stable/linux-x64/BitTorrent-Sync_x64.tar.gz /btsync.tar.gz
-RUN tar xf /btsync.tar.gz && \
-    rm /btsync.tar.gz
+EXPOSE 60008 22000 21025/udp 21026/udp
 
-ADD start.sh /start.sh
-RUN chmod 777 /start.sh
-RUN mkdir /Sync && chmod -R 777 /Sync
-
-VOLUME ["/data"]
-EXPOSE 3369/udp
-EXPOSE 8888
-
-CMD ["/start.sh"]
+CMD ["/bin/bash", "/start.sh"]
