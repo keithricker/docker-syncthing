@@ -4,7 +4,7 @@ ENV SSH_USERNAME root
 ENV SSH_PASSWORD password
 
 # install syncthing
-apk add syncthing
+RUN apk add syncthing
 USER root
 RUN if [ ! -d /sync ]; then mkdir /sync && chmod 777 -R /sync; fi
 
