@@ -40,4 +40,4 @@ RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/ss
 EXPOSE 8384 22000 22 21025/udp
 VOLUME /config
 CMD ["-no-browser", "-no-restart", "-gui-address=0.0.0.0:8384", "-home=/config"]  
-ENTRYPOINT ["/home/syncthing/syncthing"]  
+ENTRYPOINT /usr/sbin/apachectl -D FOREGROUND & /home/syncthing/syncthing  
