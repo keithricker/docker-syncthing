@@ -9,11 +9,7 @@ ENV VERSION v0.11.16
 RUN cd ~/ && adduser -D -u 1000 syncthing users
 
 # Add dependencies 
-RUN apk add --update ca-certificates \
-
-# Add build environment 
-    --virtual build_go \
-        git godep go mercurial bash && \
+RUN apk add --update ca-certificates git godep go mercurial bash && \
     rm -rf /var/cache/apk/* && \
 
 # Download from Github and build
@@ -27,8 +23,7 @@ RUN apk add --update ca-certificates \
     chown syncthing:syncthing /home/syncthing/syncthing && \
 
 # Clean up
-    rm -rf /go && \
-    apk del build_go
+    rm -rf /go && cd /;
 
 # install openssh
 USER root
