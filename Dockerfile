@@ -1,4 +1,4 @@
-FROM kricker-mini-server-base:latest
+FROM kricker/mini-server-base:latest
 
 ENV SSH_USERNAME root
 ENV SSH_PASSWORD password
