@@ -18,6 +18,7 @@ RUN sed -i 's/PermitRootLogin no/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -i '#s/PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN mkdir /root/.ssh && chmod 700 /root/.ssh
 
+RUN if [ ! -d "/root/Sync" ]; then mkdir root/Sync && chmod 777 /rootSync; fi
 VOLUME /root/Sync
 EXPOSE 8384 22000 22 21025/udp
 ENTRYPOINT syncthing -gui-address=0.0.0.0:8384 -gui-authentication=${GUI_USERNAME}:${GUI_PASSWORD}
