@@ -1,4 +1,4 @@
-FROM webhippie/alpine:latest
+FROM alpine:3.1
 
 ENV SSH_USERNAME root
 ENV SSH_PASSWORD password
