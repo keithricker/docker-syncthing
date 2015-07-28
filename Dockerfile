@@ -1,4 +1,4 @@
-FROM alpine:3.1
+FROM webhippie/alpine:latest
 
 ENV SSH_USERNAME root
 ENV SSH_PASSWORD password
@@ -14,7 +14,8 @@ USER root
 RUN setup-sshd -c openssh
 RUN echo "${SSH_USERNAME}:${SSH_PASSWORD}" | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-RUN sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/PermitRootLogin no/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i '#s/PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
 
 VOLUME /root/Sync
 EXPOSE 8384 22000 22 21025/udp
