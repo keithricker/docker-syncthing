@@ -7,11 +7,11 @@ ENV GUI_USERNAME ncsaadmin
 ENV GUI_PASSWORD youaintready
 
 # install syncthing
-RUN apk update && apk add bash syncthing
+RUN apk update && apk add bash syncthing openssh
 USER root
 
 #install openssh
-RUN apk update && setup-sshd -c openssh
+RUN rc-update add sshd
 RUN echo "${SSH_USERNAME}:${SSH_PASSWORD}" | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -i 's/PermitRootLogin no/PermitRootLogin yes/' /etc/ssh/sshd_config
