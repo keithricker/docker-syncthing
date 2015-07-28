@@ -1,17 +1,17 @@
-FROM kricker/mysql-base:latest
+FROM alpine:3.1
 
 ENV SSH_USERNAME root
 ENV SSH_PASSWORD password
 
 # install syncthing
-RUN apk add syncthing
+RUN apk update && apk add bash syncthing
 USER root
-RUN if [ ! -d /sync ]; then mkdir /sync && chmod 777 -R /sync; fi
 
 #install openssh
 RUN apk add -U openssh && rc-update add sshd;
 RUN echo "${SSH_USERNAME}:${SSH_PASSWORD}" | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-EXPOSE 8080 22000 22 21025/udp
-ENTRYPOINT syncthing
+VOLUME /root/Sync
+EXPOSE 8384 22000 22 21025/udp
+ENTRYPOINT syncthing -gui-address=0.0.0.0:8384
