@@ -11,7 +11,7 @@ RUN apk update && apk add bash syncthing
 USER root
 
 #install openssh
-RUN setup-sshd -c openssh
+RUN apk update && setup-sshd -c openssh
 RUN echo "${SSH_USERNAME}:${SSH_PASSWORD}" | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -i 's/PermitRootLogin no/PermitRootLogin yes/' /etc/ssh/sshd_config
