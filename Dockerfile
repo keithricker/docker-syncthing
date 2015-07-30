@@ -7,10 +7,17 @@ ENV GUI_USERNAME ncsaadmin
 ENV GUI_PASSWORD youaintready
 
 # install syncthing and openssh
-RUN apt-get update && apt-get install software-properties-common
-RUN add-apt-repository ppa:ytvwld/syncthing
-RUN apt-get update && apt-get install -y syncthing openssh-server
-RUN mkdir /var/run/sshd
+RUN apt-get update && apt-get remove apt-listchanges && apt-get install -y curl
+RUN apt-get install -y openssh-server && cd /tmp && \
+    curl -L "https://github.com/syncthing/syncthing/releases/download/v0.11.6/syncthing-linux-amd64-v0.11.6.tar.gz" -O && \
+    tar -zvxf "syncthing-linux-amd64-v0.11.6.tar.gz" && \
+    mv syncthing-linux-amd64-v0.11.6/syncthing /usr/local/bin/syncthing && \
+    mkdir -p /sync/ && \
+    apt-get clean -y && \
+    apt-get autoclean -y && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
+    rm -rf /tmp/*
 
 RUN echo "${SSH_USERNAME}:${SSH_PASSWORD}" | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
