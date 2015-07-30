@@ -7,7 +7,7 @@ ENV GUI_USERNAME ncsaadmin
 ENV GUI_PASSWORD youaintready
 
 # install syncthing and openssh
-RUN apt-get update && apt-get install curl
+RUN apt-get update && apt-get remove apt-listchanges && apt-get install -y curl
 RUN curl -s https://syncthing.net/release-key.txt | pt-key add -
 RUN echo "deb http://apt.syncthing.net/ syncthing release" | sudo tee /etc/apt/sources.list.d/syncthing-release.list
 RUN apt-get update && apt-get install -y syncthing openssh-server
