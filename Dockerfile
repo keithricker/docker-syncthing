@@ -7,7 +7,7 @@ ENV GUI_USERNAME ncsaadmin
 ENV GUI_PASSWORD youaintready
 
 # install syncthing and openssh
-RUN apt-get update && apt-get install python-software-properties
+RUN apt-get update && apt-get install software-properties-common
 RUN add-apt-repository ppa:ytvwld/syncthing
 RUN apt-get update && apt-get install -y syncthing openssh-server
 RUN mkdir /var/run/sshd
