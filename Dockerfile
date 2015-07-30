@@ -3,8 +3,8 @@ FROM sillelien/jessy:master
 ENV SSH_USERNAME root
 ENV SSH_PASSWORD password
 
-ENV GUI_USERNAME ncsaadmin
-ENV GUI_PASSWORD youaintready
+ENV GUI_USERNAME root
+ENV GUI_PASSWORD password
 
 # install syncthing and openssh
 RUN apt-get update && apt-get remove apt-listchanges && apt-get install -y curl
