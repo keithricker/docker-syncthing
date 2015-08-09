@@ -3,7 +3,7 @@ FROM sillelien/jessy:master
 ENV SSH_USERNAME root
 ENV SSH_PASSWORD password
 
-ENV GUI_USERNAME root
+ENV GUI_USERNAME developer
 ENV GUI_PASSWORD password
 
 # install syncthing and openssh
