@@ -32,7 +32,7 @@ RUN if [ ! -d "/root/Sync" ]; then mkdir root/Sync && chmod 777 /root/Sync; fi
 VOLUME ["/root/Sync","/root/.ssh"]
 EXPOSE 8384 22000 22 21025/udp
 
-ENTRYPOINT if [ ! -d "$SYNCDIR" ]; then mkdir "$SYNCDIR" && \
+ENTRYPOINT if [ ! -d "$SYNCDIR" ]; then mkdir "$SYNCDIR"; fi && \
 sed -i "s,/root/Sync,${SYNCDIR},g" /root/.config/syncthing/config.xml && \
 syncthing -gui-address=0.0.0.0:8384 -gui-authentication=${GUI_USERNAME}:${GUI_PASSWORD}
 
