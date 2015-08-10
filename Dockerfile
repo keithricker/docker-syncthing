@@ -33,7 +33,7 @@ VOLUME ["/data","/root/.ssh"]
 EXPOSE 8384 22000 22 21025/udp
 
 ENTRYPOINT if [ ! -d "$SYNCDIR" ]; then mkdir "$SYNCDIR" && chmod 777 "$SYNCDIR"; fi && \
-if [ "$SYNCDIR" != "/root/Sync" ]; then ln -s "$SYNCDIR" /root/Sync; fi && \
+if [ "$SYNCDIR" != "/root/Sync" ]; then mkdir /root/Sync && chmod 777 /root/Sync && ln -s /root/Sync "$SYNCDIR"; fi && \
 syncthing -gui-address=0.0.0.0:8384 -gui-authentication=${GUI_USERNAME}:${GUI_PASSWORD}
 
 CMD ["/usr/sbin/sshd", "-D"]
