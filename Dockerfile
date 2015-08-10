@@ -29,8 +29,11 @@ RUN mkdir /root/.ssh
 RUN chmod 0700 /root/.ssh
 
 RUN if [ ! -d "/root/Sync" ]; then mkdir root/Sync && chmod 777 /root/Sync; fi
+RUN if [ ! -d "/root/.config/syncthing" ]; then mkdir -p /root/.config/syncthing; fi
+COPY config.xml /root/.config/syncthing/config.xml
+
 VOLUME ["/root/Sync","/root/.ssh"]
-EXPOSE 8384 22000 22 21025/udp
+EXPOSE 8384 22000 22 21025/udp 21026/udp
 
 ENTRYPOINT if [ ! -d "$SYNCDIR" ]; then mkdir "$SYNCDIR"; fi && \
 sed -i "s,/root/Sync,${SYNCDIR},g" /root/.config/syncthing/config.xml && \
