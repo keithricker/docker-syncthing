@@ -29,7 +29,7 @@ RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 RUN mkdir /root/.ssh
 RUN chmod 0700 /root/.ssh
 
-VOLUME ["/data","/root/.ssh"]
+VOLUME ["/root/.ssh"]
 EXPOSE 8384 22000 22 21025/udp
 
 ENTRYPOINT if [ ! -d "$SYNCDIR" ]; then mkdir "$SYNCDIR" && chmod 777 "$SYNCDIR"; fi && \
