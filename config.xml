@@ -1,8 +1,15 @@
 <configuration version="7">
     <gui enabled="true" tls="false">
-        <address>0.0.0.0:60008</address>
+        <address>0.0.0.0:8384</address>
         <apikey>1B-YGWshy-KP55mN06eLzaA9EXsxeU5t</apikey>
     </gui>
+    <folder id="share" path="/root/Sync" ro="false" rescanIntervalS="60" ignorePerms="true" autoNormalize="false">
+        <versioning></versioning>
+        <copiers>0</copiers>
+        <pullers>0</pullers>
+        <hashers>0</hashers>
+        <order>newestFirst</order>
+    </folder>
     <options>
         <listenAddress>0.0.0.0:22000</listenAddress>
         <globalAnnounceServer>udp4://announce.syncthing.net:22026</globalAnnounceServer>
