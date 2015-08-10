@@ -30,13 +30,13 @@ RUN chmod 0700 /root/.ssh
 
 RUN if [ ! -d "/root/Sync" ]; then mkdir root/Sync && chmod 777 /root/Sync; fi
 RUN if [ ! -d "/root/.config/syncthing" ]; then mkdir -p /root/.config/syncthing; fi
-COPY config.xml /root/.config/syncthing/config.xml
+ADD ./config.xml /root/.config/syncthing/config.xml
 
 VOLUME ["/root/Sync","/root/.ssh"]
 EXPOSE 8384 22000 22 21025/udp 21026/udp
 
 ENTRYPOINT if [ ! -d "$SYNCDIR" ]; then mkdir "$SYNCDIR"; fi && \
-sed -i "s,/root/Sync,${SYNCDIR},g" /root/.config/syncthing/config.xml && \
+# sed -i "s,/root/Sync,${SYNCDIR},g" /root/.config/syncthing/config.xml && \
 syncthing -gui-address=0.0.0.0:8384 -gui-authentication=${GUI_USERNAME}:${GUI_PASSWORD}
 
 CMD ["/usr/sbin/sshd", "-D"]
