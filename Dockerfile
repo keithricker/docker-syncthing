@@ -5,7 +5,6 @@ ENV SSH_PASSWORD password
 
 ENV GUI_USERNAME developer
 ENV GUI_PASSWORD password
-
 ENV SYNCDIR /data
 
 # install syncthing and openssh
@@ -29,11 +28,12 @@ RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 RUN mkdir /root/.ssh
 RUN chmod 0700 /root/.ssh
 
-VOLUME ["/root/.ssh"]
+RUN if [ ! -d "/root/Sync" ]; then mkdir root/Sync && chmod 777 /root/Sync; fi
+VOLUME ["/root/Sync","/root/.ssh"]
 EXPOSE 8384 22000 22 21025/udp
 
-ENTRYPOINT if [ ! -d "$SYNCDIR" ]; then mkdir "$SYNCDIR" && chmod 777 "$SYNCDIR"; fi && \
-if [ "$SYNCDIR" != "/root/Sync" ]; then mkdir /root/Sync && chmod 777 /root/Sync && ln -s /root/Sync "$SYNCDIR"; fi && \
+ENTRYPOINT if [ ! -d "$SYNCDIR" ]; then mkdir "$SYNCDIR" && \
+sed -i 's,/root/Sync,${SYNCDIR},g' /root/.config/syncthing/config.xml && \
 syncthing -gui-address=0.0.0.0:8384 -gui-authentication=${GUI_USERNAME}:${GUI_PASSWORD}
 
 CMD ["/usr/sbin/sshd", "-D"]
