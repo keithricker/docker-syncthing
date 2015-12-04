@@ -20,10 +20,11 @@ RUN apt-get install -y openssh-server && cd /tmp && \
     rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
     rm -rf /tmp/*
 
+RUN if [ ! -d "/var/run/sshd" ]; then mkdir /var/run/sshd fi;
 RUN echo "${SSH_USERNAME}:${SSH_PASSWORD}" | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-RUN sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
-RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
+RUN sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd
+  
 # public key goes here
 RUN mkdir /root/.ssh
 RUN chmod 0700 /root/.ssh
