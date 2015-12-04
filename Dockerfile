@@ -20,7 +20,7 @@ RUN apt-get install -y openssh-server && cd /tmp && \
     rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
     rm -rf /tmp/*
 
-RUN if [ ! -d "/var/run/sshd" ]; then mkdir /var/run/sshd fi;
+RUN if [ ! -d "/var/run/sshd" ]; then mkdir /var/run/sshd; fi;
 RUN echo "${SSH_USERNAME}:${SSH_PASSWORD}" | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd
@@ -36,6 +36,6 @@ ADD ./config.xml /root/.config/syncthing/config.xml
 VOLUME ["/root/Sync","/root/.ssh"]
 EXPOSE 8384 22000 22 21025/udp 21026/udp 22026/udp
 
-ENTRYPOINT /usr/sbin/sshd -D & if [ ! -d "$SYNCDIR" ]; then mkdir "$SYNCDIR"; fi && \
+ENTRYPOINT /usr/sbin/sshd -D && service sshd start & if [ ! -d "$SYNCDIR" ]; then mkdir "$SYNCDIR"; fi && \
 sed -i 's|'/root/Sync'|'$SYNCDIR'|g' /root/.config/syncthing/config.xml && \
 syncthing -gui-address=0.0.0.0:8384 -gui-authentication=${GUI_USERNAME}:${GUI_PASSWORD}
